@@ -8,6 +8,7 @@
 import Combine
 import Foundation
 import SwiftUI
+import WordMeister
 
 public class ContentViewModel: ObservableObject {
     @Published var userSearch: String = ""
@@ -23,6 +24,9 @@ protocol ManagesRecents {
 }
 
 public class RecentsManager: ManagesRecents {
+
+    static public let MaxRecents = 10
+
     private let _recents: CurrentValueSubject<[RecentType], Never>
     var recents: [String] {
         _recents.value
@@ -34,10 +38,7 @@ public class RecentsManager: ManagesRecents {
 
     func add(_ item: String) -> [String] {
         var newRecents = _recents.value
-        newRecents.insert(item, at: 0)
-        if newRecents.count > 10 {
-            newRecents.removeLast(1)
-        }
+        newRecents.push(item, maxLength: Self.MaxRecents)
         _recents.value = newRecents
         return newRecents
     }
