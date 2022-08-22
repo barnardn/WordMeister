@@ -13,7 +13,7 @@ struct DebugConsole: View {
         SearchTestView()
     }
 }
-// https://wordsapiv1.p.rapidapi.com/words/?letterPattern=%5Eexpo%5Cw%2B%24&limit=100&page=1
+
 private struct SearchTestView: View {
     @Environment(\.dismiss) private var dismiss
     @StateObject var viewModel = ContentViewModel()
@@ -23,20 +23,27 @@ private struct SearchTestView: View {
             TextField("Search Term", text: $viewModel.userSearch)
                 .textFieldStyle(.roundedBorder)
                 .autocapitalization(.none)
-                .textCase(.lowercase)
                 .autocorrectionDisabled()
                 .onSubmit {
                     Task {
                         try await viewModel.startSearch()
                     }
                 }
-            HStack {
-                Text("Results")
-                    .foregroundColor(.gray)
+            if !viewModel.searchResults.isEmpty {
+                List {
+                    Section(
+                        content: {
+                            ForEach(viewModel.searchResults, id: \.self) {
+                                Text($0)
+                            }
+                        },
+                        header: { Text("Results") }
+                    )
+                }
+                .listStyle(.plain)
+            } else {
                 Spacer()
             }
-            .padding(.leading, 8)
-            Spacer()
         }
         .padding()
         .navigationBarItems(

@@ -15,7 +15,8 @@ public protocol DictionaryClient {
 public class WordsAPIClient: DictionaryClient {
 
     public enum Endpoints { }
-    internal enum Models { }
+    enum Models { }
+    enum Constants {}
 
     let networkTransport: NetworkTransport
 

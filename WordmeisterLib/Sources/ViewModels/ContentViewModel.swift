@@ -12,13 +12,15 @@ import SwiftUI
 public class ContentViewModel: ObservableObject {
     @Published public var userSearch: String = ""
     @Published public var recentSearches: [String] = []
+    @Published public var searchResults: [String] = []
     private let apiClient = WordsAPIClient()
 
     public init() { }
 
+    @MainActor
     public func startSearch() async throws {
         let results = try await apiClient.searchResults(wordPrefix: userSearch)
-        print("search results \(results)")
+        searchResults = results
     }
 
 }
