@@ -10,7 +10,7 @@ import Foundation
 extension WordsAPIClient.Constants {
 
     static var host = URL(string: "https://wordsapiv1.p.rapidapi.com")!
-    static var apiKey = ""
+    static var apiKey = "  "
     static let headers: [APIHeader] = [
         .contentType("application/json"),
         .rapidAPIHost(host.host ?? ""),
