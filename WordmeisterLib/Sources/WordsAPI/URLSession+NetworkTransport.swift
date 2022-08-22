@@ -16,16 +16,18 @@ public protocol NetworkTransport {
     func fetch<Payload: Decodable>(request: URLRequest) async throws -> Payload
 }
 
-extension URLSession {
+extension URLSession: NetworkTransport {
     public func fetch<Payload: Decodable>(request: URLRequest) async throws -> Payload {
         let (data, response) = try await data(for: request)
         guard let response = response as? HTTPURLResponse, response.statusCode == 200 else {
+            print("error \(response)")
             throw NetworkTransportError.badResponse(response)
         }
         let jsonDecoder = JSONDecoder()
         do {
             return try jsonDecoder.decode(Payload.self, from: data)
         } catch {
+            print("ok.. \(error)")
             throw NetworkTransportError.badData(error, data)
         }
     }

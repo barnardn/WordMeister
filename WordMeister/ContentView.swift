@@ -10,6 +10,7 @@ import SwiftUI
 struct ContentView: View {
     @State var searchText: String = ""
     @State var selected: String = ""
+    @State var showConsole = false
     var recentSearches: [String]
 
     var body: some View {
@@ -23,6 +24,14 @@ struct ContentView: View {
                     Text($0)
                 }
                 .listStyle(.plain)
+                Button("Debug") {
+                    showConsole = true
+                }
+                .sheet(isPresented: $showConsole) {
+                    NavigationView {
+                        DebugConsole()
+                    }
+                }
             }
             .searchable(text: $searchText, placement: .navigationBarDrawer, prompt: "Enter a word")
             .navigationTitle("Word Meister")

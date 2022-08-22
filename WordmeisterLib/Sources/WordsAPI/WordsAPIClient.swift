@@ -19,26 +19,19 @@ public class WordsAPIClient: DictionaryClient {
 
     let networkTransport: NetworkTransport
 
-    public init(networkTransport: NetworkTransport) {
+    public init(networkTransport: NetworkTransport = URLSession.shared) {
         self.networkTransport = networkTransport
     }
 
     public func searchResults(wordPrefix: String) async throws -> [String] {
         let endpoint = Endpoints.Search.search(wordPrefix: wordPrefix).apiEndpoint
-        async let search: Models.SearchResponse = networkTransport.fetch(request: endpoint.asRequest)
-        return try await search.results.data
-
-//        return ["exposable",
-//                "exposal",
-//                "expose",
-//                "exposed",
-//                "exposedness",
-//                "exposer",
-//                "exposing",
-//                "exposit",
-//                "exposition",
-//                "expositional",
-//        ]
+        do {
+            let search: Models.SearchResponse = try await networkTransport.fetch(request: endpoint.asRequest)
+            return search.results.data
+        } catch {
+            print("\(error)")
+        }
+        return []
     }
 
     public func define(word: String) async throws -> DefinedWord {
@@ -57,7 +50,7 @@ extension WordsAPIClient.Models {
             let page: String
         }
         struct Results: Codable {
-            let total: String
+            let total: Int
             let data: [String]
         }
         let query: Query

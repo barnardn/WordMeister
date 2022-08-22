@@ -13,7 +13,7 @@ public extension WordsAPIClient.Endpoints {
         static let apiKey = ""
         static let headers: [APIHeader] = [
             .contentType("application/json"),
-            .rapidAPIHost(host.absoluteString),
+            .rapidAPIHost("wordsapiv1.p.rapidapi.com"),
             .rapidAPIKey(apiKey)
         ]
     }
@@ -26,11 +26,12 @@ public extension WordsAPIClient.Endpoints {
                 case .search(let wordPrefix):
                     return APIEndpoint(
                         host: Constants.host,
-                        path: "/words",
+                        path: .directory("/words"),
                         additionalHeaders: Constants.headers,
                         queryParameters: [
-                            .init(name: "letterPattern", value: "^\(wordPrefix)\\w$"),
-                            .init(name: "limit", value: "100")
+                            .init(name: "letterPattern", value: "^\(wordPrefix)\\w*$"),
+                            .init(name: "limit", value: "20"),
+                            .init(name: "page", value: "1")
                         ]
                     )
             }
@@ -45,7 +46,7 @@ public extension WordsAPIClient.Endpoints {
                 case .define(let word):
                     return APIEndpoint(
                         host: Constants.host,
-                        path: "/words/\(word)/definitions",
+                        path: .resource("/words/\(word)/definitions"),
                         additionalHeaders: Constants.headers
                     )
             }

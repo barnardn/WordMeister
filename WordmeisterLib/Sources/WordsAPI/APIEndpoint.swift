@@ -34,20 +34,43 @@ public enum HTTPMethod: String {
     var asString: String { self.rawValue }
 }
 
+public enum ResourcePath {
+    case directory(String)
+    case resource(String)
+
+    var urlHint: URL.DirectoryHint {
+        switch self {
+            case .directory:
+                return .isDirectory
+            case .resource:
+                return .notDirectory
+        }
+    }
+
+    var asString: String {
+        switch self {
+            case .resource(let value), .directory(let value):
+                return value
+        }
+    }
+
+
+}
+
 public protocol Endpoint {
     var asRequest: URLRequest { get }
 }
 
 public struct APIEndpoint: Endpoint {
     public let host: URL
-    public let path: String
+    public let path: ResourcePath
     public let additionalHeaders: [APIHeader]?
     public let queryParameters: [URLQueryItem]?
     public let method: HTTPMethod
 
     internal init(
         host: URL,
-        path: String,
+        path: ResourcePath,
         additionalHeaders: [APIHeader]? = nil,
         queryParameters: [URLQueryItem]? = nil,
         method: HTTPMethod = .get
@@ -60,7 +83,9 @@ public struct APIEndpoint: Endpoint {
     }
 
     public var asRequest: URLRequest {
-        let requestURL = host.appending(path: path).appending(queryItems: queryParameters ?? [])
+        let requestURL = host
+            .appending(path: path.asString, directoryHint: path.urlHint)
+            .appending(queryItems: queryParameters ?? [])
         var request = URLRequest(url: requestURL)
         request.httpMethod = method.asString
         additionalHeaders?.forEach {

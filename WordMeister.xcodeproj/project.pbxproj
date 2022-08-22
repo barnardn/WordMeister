@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		216BB51C28B30D6D0096BD2E /* DebugConsole.swift in Sources */ = {isa = PBXBuildFile; fileRef = 216BB51B28B30D6D0096BD2E /* DebugConsole.swift */; };
+		216BB52128B313030096BD2E /* WordmeisterLib in Frameworks */ = {isa = PBXBuildFile; productRef = 216BB52028B313030096BD2E /* WordmeisterLib */; };
 		21A6ACAC28ADABD300DE5251 /* WordMeisterApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21A6ACAB28ADABD300DE5251 /* WordMeisterApp.swift */; };
 		21A6ACAE28ADABD300DE5251 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 21A6ACAD28ADABD300DE5251 /* ContentView.swift */; };
 		21A6ACB028ADABD400DE5251 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 21A6ACAF28ADABD400DE5251 /* Assets.xcassets */; };
@@ -25,6 +27,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		216BB51B28B30D6D0096BD2E /* DebugConsole.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DebugConsole.swift; sourceTree = "<group>"; };
 		21A6ACA828ADABD300DE5251 /* WordMeister.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = WordMeister.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		21A6ACAB28ADABD300DE5251 /* WordMeisterApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordMeisterApp.swift; sourceTree = "<group>"; };
 		21A6ACAD28ADABD300DE5251 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -40,6 +43,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				216BB52128B313030096BD2E /* WordmeisterLib in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -53,6 +57,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		216BB51D28B312560096BD2E /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		21A6AC9F28ADABD300DE5251 = {
 			isa = PBXGroup;
 			children = (
@@ -60,6 +71,7 @@
 				21A6ACAA28ADABD300DE5251 /* WordMeister */,
 				21A6ACBB28ADABD400DE5251 /* WordMeisterTests */,
 				21A6ACA928ADABD300DE5251 /* Products */,
+				216BB51D28B312560096BD2E /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -79,6 +91,7 @@
 				21A6ACAD28ADABD300DE5251 /* ContentView.swift */,
 				21A6ACAF28ADABD400DE5251 /* Assets.xcassets */,
 				21A6ACB128ADABD400DE5251 /* Preview Content */,
+				216BB51B28B30D6D0096BD2E /* DebugConsole.swift */,
 			);
 			path = WordMeister;
 			sourceTree = "<group>";
@@ -115,6 +128,9 @@
 			dependencies = (
 			);
 			name = WordMeister;
+			packageProductDependencies = (
+				216BB52028B313030096BD2E /* WordmeisterLib */,
+			);
 			productName = WordMeister;
 			productReference = 21A6ACA828ADABD300DE5251 /* WordMeister.app */;
 			productType = "com.apple.product-type.application";
@@ -200,6 +216,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				21A6ACAE28ADABD300DE5251 /* ContentView.swift in Sources */,
+				216BB51C28B30D6D0096BD2E /* DebugConsole.swift in Sources */,
 				21A6ACAC28ADABD300DE5251 /* WordMeisterApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -466,6 +483,13 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		216BB52028B313030096BD2E /* WordmeisterLib */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = WordmeisterLib;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 21A6ACA028ADABD300DE5251 /* Project object */;
 }
