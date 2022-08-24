@@ -11,11 +11,20 @@ import SwiftUI
 
 public class ContentViewModel: ObservableObject {
     @Published public var userSearch: String = ""
+    @Published public var debouncedUserSearch: String = ""
     @Published public var recentSearches: [String] = []
     @Published public var searchResults: [String] = []
+
+    private var cancelables = Set<AnyCancellable>()
+    private var searchPrefix = ""
     private let apiClient = WordsAPIClient()
 
-    public init() { }
+    public init() {
+        $userSearch
+            .debounce(for: 0.3, scheduler: DispatchQueue.main)
+            .assign(to: \.debouncedUserSearch, on: self)
+            .store(in: &cancelables)
+    }
 
     @MainActor
     public func startSearch() async throws {
