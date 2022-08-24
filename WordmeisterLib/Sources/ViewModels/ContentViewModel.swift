@@ -12,9 +12,9 @@ import SwiftUI
 public class ContentViewModel: ObservableObject {
     @Published public var searchInput: String = ""
     @Published public var debouncedUserSearch: String = ""
+    @Published public var isSearchInProgress: Bool = false
     @Published public var recentSearches: [String] = []
     @Published public var searchResults: [String] = []
-    public var startNewSearch: Bool { debouncedUserSearch.count > 3 }
     
     private var cancelables = Set<AnyCancellable>()
     private var searchPrefix = ""
@@ -29,6 +29,13 @@ public class ContentViewModel: ObservableObject {
 
     @MainActor
     public func startSearch(_ prefix: String) async throws {
+        isSearchInProgress = !prefix.isEmpty
+        guard !prefix.isEmpty else {
+            cancelSearch()
+            return
+        }
+
+        defer { isSearchInProgress = false }
         let results = try await apiClient.searchResults(wordPrefix: prefix)
         searchResults = results
     }
@@ -36,6 +43,7 @@ public class ContentViewModel: ObservableObject {
     public func cancelSearch() {
         searchInput = ""
         searchResults = []
+        isSearchInProgress = false
     }
 
 }
