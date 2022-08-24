@@ -39,49 +39,17 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "7A5A8C09-C0C1-4562-88AA-ADFA9D2F8D71"
+            uuid = "A5FA0E19-DF9F-4B1C-BE47-25623AEF468D"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "WordMeister/ContentView.swift"
+            filePath = "WordmeisterLib/Sources/ViewModels/ContentViewModel.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "17"
-            endingLineNumber = "17"
-            landmarkName = "body"
-            landmarkType = "24">
-            <Locations>
-               <Location
-                  uuid = "7A5A8C09-C0C1-4562-88AA-ADFA9D2F8D71 - 624f35bcfbc2cd1a"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "WordMeister.ContentView.body.getter : some"
-                  moduleName = "WordMeister"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/barnard/projects/WordMeister/WordMeister/ContentView.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "17"
-                  endingLineNumber = "17"
-                  offsetFromSymbolStart = "388">
-               </Location>
-               <Location
-                  uuid = "7A5A8C09-C0C1-4562-88AA-ADFA9D2F8D71 - 27d8c8c0617e7443"
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 () -&gt; &lt;&lt;opaque return type of SwiftUI.View.padding(SwiftUI.Edge.Set, Swift.Optional&lt;CoreGraphics.CGFloat&gt;) -&gt; some&gt;&gt;.0 in WordMeister.ContentView.body.getter : some"
-                  moduleName = "WordMeister"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/barnard/projects/WordMeister/WordMeister/ContentView.swift"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "18"
-                  endingLineNumber = "18"
-                  offsetFromSymbolStart = "668">
-               </Location>
-            </Locations>
+            startingLineNumber = "37"
+            endingLineNumber = "37"
+            landmarkName = "cancelSearch()"
+            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

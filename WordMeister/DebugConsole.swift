@@ -10,7 +10,29 @@ import WordmeisterLib
 
 struct DebugConsole: View {
     var body: some View {
-        SearchTestView()
+        SearchDismissTest()
+//        SearchTestView()
+    }
+}
+
+private struct SearchDismissTest: View {
+    @State private var text = ""
+
+    var body: some View {
+        NavigationView {
+            SearchedView()
+                .searchable(text: $text)
+        }
+    }
+
+    struct SearchedView: View {
+        @Environment(\.isSearching) private var isSearching
+
+        var body: some View {
+            Text(isSearching ? "Searching!" : "Not searching.").onChange(of: isSearching) { newValue in
+                print("--= \(newValue)")
+            }
+        }
     }
 }
 
@@ -20,13 +42,13 @@ private struct SearchTestView: View {
 
     var body: some View {
         VStack(alignment: .center, spacing: 10.0) {
-            TextField("Search Term", text: $viewModel.userSearch)
+            TextField("Search Term", text: $viewModel.searchInput)
                 .textFieldStyle(.roundedBorder)
                 .autocapitalization(.none)
                 .autocorrectionDisabled()
                 .onSubmit {
                     Task {
-                        try await viewModel.startSearch()
+                        try await viewModel.startSearch(viewModel.searchInput)
                     }
                 }
             if !viewModel.searchResults.isEmpty {
