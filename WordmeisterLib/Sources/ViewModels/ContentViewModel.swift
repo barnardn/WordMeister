@@ -15,12 +15,19 @@ public class ContentViewModel: ObservableObject {
     @Published public var isSearchInProgress: Bool = false
     @Published public var recentSearches: [String] = []
     @Published public var searchResults: [String] = []
-    
+
+    private let recentManager: RecentsManager<String>
+
     private var cancelables = Set<AnyCancellable>()
     private var searchPrefix = ""
     private let apiClient = WordsAPIClient()
 
-    public init() {
+    public init(
+        recentsManager: RecentsManager<String> = RecentsManager()
+    ) {
+        self.recentManager = recentsManager
+        self.recentSearches = recentManager.recents
+
         $searchInput
             .debounce(for: 0.3, scheduler: DispatchQueue.main)
             .assign(to: \.debouncedUserSearch, on: self)
@@ -40,6 +47,10 @@ public class ContentViewModel: ObservableObject {
         searchResults = results
     }
 
+    public func selctedWord(word: String) {
+        recentSearches = recentManager.add(word)
+    }
+
     public func cancelSearch() {
         searchInput = ""
         searchResults = []
@@ -48,19 +59,10 @@ public class ContentViewModel: ObservableObject {
 
 }
 
-protocol ManagesRecents {
-    associatedtype RecentType
-    var recents: [RecentType] { get }
-    func add(_ item: RecentType) -> [RecentType]
-    func clear()
-}
+public class RecentsManager<T> {
 
-public class RecentsManager: ManagesRecents {
-
-    static public let MaxRecents = 10
-
-    private let _recents: CurrentValueSubject<[RecentType], Never>
-    var recents: [String] {
+    private let _recents: CurrentValueSubject<[T], Never>
+    var recents: [T] {
         _recents.value
     }
 
@@ -68,9 +70,9 @@ public class RecentsManager: ManagesRecents {
         self._recents = CurrentValueSubject([])
     }
 
-    func add(_ item: String) -> [String] {
+    func add(_ item: T) -> [T] {
         var newRecents = _recents.value
-        newRecents.push(item, maxLength: Self.MaxRecents)
+        newRecents.push(item, maxLength: 10)
         _recents.value = newRecents
         return newRecents
     }

@@ -24,8 +24,13 @@ struct ContentView: View {
                 .textInputAutocapitalization(.never)
                 .searchSuggestions {
                     SearchSuggestionsView(
-                        suggestions: viewModel.searchResults
+                        suggestions: viewModel.searchResults,
+                        suggestionTapAction: {
+                            viewModel.selctedWord(word: $0)
+                            viewModel.cancelSearch()
+                        }
                     )
+                    .frame(maxHeight: .infinity)
                 }
                 .onChange(of: viewModel.debouncedUserSearch, perform: { searchPrefix in
                     Task {
@@ -41,6 +46,9 @@ struct ContentView: View {
                         DebugConsole()
                     }
                 }
+            }
+            .onSubmit(of: .search) {
+                print("hi")
             }
             .navigationTitle("Dixshunairee")
             .padding()
@@ -70,7 +78,11 @@ private struct SearchView: View {
                 ProgressView()
                     .progressViewStyle(.circular)
             }
-            RecentSearchesView(recentSearches)
+            if !isSearching {
+                RecentSearchesView(recentSearches)
+            } else {
+                List {}  // provide an empty list for suggestions since our .searchable is not attached to a list
+            }
         }
         .onChange(of: isSearching) { isSearching in
             if !isSearching {
@@ -92,7 +104,7 @@ private struct RecentSearchesView: View {
             Text("Recent Searches")
             Spacer()
         }
-        List.init(recentSearches, id: \.self) {
+        List(recentSearches, id: \.self) {
             Text($0)
         }
         .listStyle(.plain)
@@ -100,11 +112,17 @@ private struct RecentSearchesView: View {
 }
 
 private struct SearchSuggestionsView: View {
+    @Environment(\.dismissSearch) var dismissSearch
     let suggestions: [String]
+    let suggestionTapAction: (String) -> Void
 
     var body: some View {
-        ForEach(suggestions, id: \.self) {
-            Text($0)
+        ForEach(suggestions, id: \.self) { suggestion in
+            Text(suggestion)
+                .onTapGesture {
+                    suggestionTapAction(suggestion)
+                    dismissSearch()
+                }
         }
     }
 }
