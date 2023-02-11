@@ -23,14 +23,12 @@ struct ContentView: View {
                 .searchable(text: $viewModel.searchInput, placement: .navigationBarDrawer, prompt: "Enter a word")
                 .textInputAutocapitalization(.never)
                 .searchSuggestions {
-                    SearchSuggestionsView(
-                        suggestions: viewModel.searchResults,
-                        suggestionTapAction: {
-                            viewModel.selctedWord(word: $0)
+                    ForEach(viewModel.searchResults, id: \.self) { suggestion in
+                        SearchSuggestionsView(suggestion: suggestion) {
+                            viewModel.selctedWord(word: suggestion)
                             viewModel.cancelSearch()
                         }
-                    )
-                    .frame(maxHeight: .infinity)
+                    }
                 }
                 .onChange(of: viewModel.debouncedUserSearch, perform: { searchPrefix in
                     Task {
@@ -38,14 +36,6 @@ struct ContentView: View {
                         try Task.checkCancellation()
                     }
                 })
-                Button("Debug") {
-                    showConsole = true
-                }
-                .sheet(isPresented: $showConsole) {
-                    NavigationView {
-                        DebugConsole()
-                    }
-                }
             }
             .onSubmit(of: .search) {
                 print("hi")
@@ -81,7 +71,11 @@ private struct SearchView: View {
             if !isSearching {
                 RecentSearchesView(recentSearches)
             } else {
-                List {}  // provide an empty list for suggestions since our .searchable is not attached to a list
+                VStack {
+                    Text("View displayed while searching.")
+                }
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                .border(.black, width: 1.0)
             }
         }
         .onChange(of: isSearching) { isSearching in
@@ -113,17 +107,15 @@ private struct RecentSearchesView: View {
 
 private struct SearchSuggestionsView: View {
     @Environment(\.dismissSearch) var dismissSearch
-    let suggestions: [String]
-    let suggestionTapAction: (String) -> Void
+    let suggestion: String
+    let onTap: SideEffect
 
     var body: some View {
-        ForEach(suggestions, id: \.self) { suggestion in
-            Text(suggestion)
-                .onTapGesture {
-                    suggestionTapAction(suggestion)
-                    dismissSearch()
-                }
-        }
+        Text(suggestion)
+            .onTapGesture {
+                onTap()
+                dismissSearch()
+            }
     }
 }
 
